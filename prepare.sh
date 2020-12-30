@@ -7,6 +7,7 @@ wget 'http://osmose.openstreetmap.fr/en/errors/?limit=50000&class=32501&item=325
 ./get_from_overpass.py
 
 rm -f data/editme*
-# data/osm.xml => data/editme.txt
+# data/osm.xml => data/editme-*.txt
 ./process_opening_hours.py
 
+echo 'Now edit data/editme-*.txt, save as data/done-*.txt, then run upload_changes.sh'

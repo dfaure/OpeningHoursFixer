@@ -22,7 +22,7 @@ with open(fileName) as f:
 xmlfile = open("data/osm.xml", "r")
 response = xmlfile.read()
 
-# parse XML
+# parse and modify XML
 root = ET.fromstring(response)
 tree = ET.ElementTree(root)
 for child in root:

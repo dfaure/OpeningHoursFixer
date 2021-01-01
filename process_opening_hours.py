@@ -31,8 +31,8 @@ for child in root:
 # save
 class CurrentOutput:
     file_counter = 0 # C++ static
-    def __init__(self):
-        self.fileName = 'data/editme-' + str(CurrentOutput.file_counter) + '.txt'
+    def __init__(self, prefix):
+        self.fileName = 'data/' + prefix + 'editme-' + str(CurrentOutput.file_counter) + '.txt'
         self.file = open(self.fileName, 'w')
         self.line_counter = 0
     def add(self, lines):
@@ -43,12 +43,18 @@ class CurrentOutput:
         self.file.close()
         CurrentOutput.file_counter += 1
 
-out = CurrentOutput()
+out = CurrentOutput('')
+out_err = CurrentOutput('err-')
 for key in sorted(hours.keys()):
     entry = hours[key]
     lines = '{}\n  OLD {}\n  NEW {}\n'.format(key, entry[0], entry[1])
-    if out.add(lines) > 99:
-        out.close()
-        out = CurrentOutput()
+    if entry[1] == '':
+        if out_err.add(lines) > 99:
+            out_err.close()
+            out_err = CurrentOutput('err-')
+    else:
+        if out.add(lines) > 99:
+            out.close()
+            out = CurrentOutput('')
 
 out.close()

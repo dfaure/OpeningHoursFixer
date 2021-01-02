@@ -1,9 +1,9 @@
 #!/bin/sh
 
-# data/done-0.txt => data/done-0.osm
+# data/done.txt => data/done.osm
 ./create_changes.py
 
-# data/done-0.osm => changes/*
+# data/done.osm => changes/*
 ./filter_changes.py
 
 password=`pass show osmbot-openstreetmap.org | head -n 1`

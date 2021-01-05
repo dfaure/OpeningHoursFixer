@@ -5,7 +5,7 @@ import os
 from PyKOpeningHours.PyKOpeningHours import OpeningHours, Error
 
 # Parse edited data
-fileName = 'data/done-0.txt'
+fileName = 'data/done.txt'
 hours = {}
 with open(fileName) as f:
     while True:
@@ -41,4 +41,4 @@ for child in root:
                     child.set('X-reason', 'update_') # for filter_changes.py
                     child.set('action', 'modify')
 
-tree.write('data/done-0.osm', 'unicode', True)
+tree.write('data/done.osm', 'unicode', True)

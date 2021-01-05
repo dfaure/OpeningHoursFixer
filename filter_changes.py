@@ -69,7 +69,7 @@ class CurrentOutput:
         #print('  lat {} - {}, lon {} - {} => area {}'.format(self.min_lat, self.max_lat, self.min_lon, self.max_lon, size))
         return size
 
-tree = ET.parse('data/done-0.osm')
+tree = ET.parse('data/done.osm')
 root = tree.getroot()
 
 current_out_dict = {}

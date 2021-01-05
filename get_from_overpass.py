@@ -29,10 +29,22 @@ with open('data/list.txt') as f:
                 print('unsupported type ' + type)
 
 # https://wiki.openstreetmap.org/wiki/Overpass_API/Overpass_QL#By_element_id
-nodeQuery = 'node(id:' + ','.join(nodes) + ')'
-wayQuery = 'way(id:' + ','.join(ways) + ')'
-relationQuery = 'relation(id:' + ','.join(relations) + ')'
-query = '(' + nodeQuery + ';' + wayQuery + ';' + relationQuery + ';)'
+useArea = True
+if nodes:
+    nodeQuery = 'node(id:' + ','.join(nodes) + ')' + ('(area)' if useArea else '') + ';'
+else:
+    nodeQuery = ''
+if ways:
+    wayQuery = 'way(id:' + ','.join(ways) + ')' + ('(area)' if useArea else '') + ';'
+else:
+    wayQuery = ''
+if relations:
+    relationQuery = 'relation(id:' + ','.join(relations) + ')' + ('(area)' if useArea else '') + ';'
+else:
+    relationQuery = ''
+query = '(' + nodeQuery + wayQuery + relationQuery + ')'
+if useArea:
+    query = 'area[name="France"]; ' + query
 response = api.get(query, responseformat="xml", verbosity='meta center qt')
 xmlfile = open("data/osm.xml", "w+")
 xmlfile.write(response)

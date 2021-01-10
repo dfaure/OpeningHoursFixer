@@ -2,6 +2,7 @@
 # https://docs.python.org/3/library/xml.etree.elementtree.html#module-xml.etree.ElementTree
 import xml.etree.ElementTree as ET
 import os
+import sys
 from PyKOpeningHours.PyKOpeningHours import OpeningHours, Error
 
 xmlfile = open("data/osm.xml", "r")
@@ -32,6 +33,11 @@ for child in root:
                     new_oh = ''
                 else:
                     new_oh = parser.normalizedExpression()
+                    if new_oh != '':
+                        parser.setExpression(new_oh)
+                        if parser.error() == Error.SyntaxError:
+                            print('ERROR: cannot parse my own expression back:\n' + old_opening_hours + '\n' + new_oh)
+                            sys.exit(1)
                 simplify = lambda s: s.replace('24:00', '00:00')
                 if simplify(old_opening_hours) != simplify(new_oh):
                     hours[key] = [old_opening_hours, new_oh]

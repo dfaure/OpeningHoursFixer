@@ -29,7 +29,7 @@ with open('data/list.txt') as f:
                 print('unsupported type ' + type)
 
 # https://wiki.openstreetmap.org/wiki/Overpass_API/Overpass_QL#By_element_id
-useArea = True
+useArea = False
 if nodes:
     nodeQuery = 'node(id:' + ','.join(nodes) + ')' + ('(area)' if useArea else '') + ';'
 else:

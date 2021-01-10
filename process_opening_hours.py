@@ -40,7 +40,7 @@ for child in root:
                             sys.exit(1)
                 simplify = lambda s: s.replace('24:00', '00:00')
                 if simplify(old_opening_hours) != simplify(new_oh):
-                    hours[key] = [old_opening_hours, new_oh]
+                    hours[key] = [old_opening_hours.replace('\n','\\n'), new_oh]
             else:
                 print('ERROR: no opening_hours found in ' + key)
 

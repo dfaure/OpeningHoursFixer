@@ -37,7 +37,6 @@ for child in root:
                         parser.setExpression(new_oh)
                         if parser.error() == Error.SyntaxError:
                             print('ERROR: cannot parse my own expression back:\n' + old_opening_hours + '\n' + new_oh)
-                            sys.exit(1)
                 simplify = lambda s: s.replace('24:00', '00:00')
                 if simplify(old_opening_hours) != simplify(new_oh):
                     hours[key] = [old_opening_hours.replace('\n','\\n'), new_oh]
@@ -74,3 +73,4 @@ for key in sorted(hours.keys()):
             out = CurrentOutput('')
 
 out.close()
+out_err.close()

@@ -2,6 +2,7 @@
 # https://docs.python.org/3/library/xml.etree.elementtree.html#module-xml.etree.ElementTree
 import xml.etree.ElementTree as ET
 import os
+import sys
 from PyKOpeningHours.PyKOpeningHours import OpeningHours, Error
 
 # Parse edited data
@@ -16,6 +17,16 @@ with open(fileName) as f:
         new = f.readline()[6:].rstrip('\n')
         if old != new and new != '':
             hours[key] = [old, new]
+            parser = OpeningHours()
+            parser.setExpression(new)
+            if parser.error() == Error.SyntaxError or parser.error() == Error.IncompatibleMode or parser.error() == Error.Null:
+                print('ERROR: invalid replacement value: {0}'.format(new))
+                sys.exit(1)
+            normalized = parser.normalizedExpression()
+            if normalized != new:
+                print('ERROR: not normalized: {0}'.format(new))
+                sys.exit(1)
+
             #print('IN: {} {} -> {}'.format(key, old, new))
 
 # Read XML

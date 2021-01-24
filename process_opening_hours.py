@@ -34,6 +34,7 @@ for child in root:
                 else:
                     new_oh = parser.normalizedExpression()
                     if new_oh != '':
+                        new_oh = new_oh.replace('PH Su off', 'Su,PH off')
                         parser.setExpression(new_oh)
                         if parser.error() == Error.SyntaxError:
                             print('ERROR: cannot parse my own expression back:\n' + old_opening_hours + '\n' + new_oh)

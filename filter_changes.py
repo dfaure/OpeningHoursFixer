@@ -85,7 +85,7 @@ for child in root:
         if current_out.keep(child):
 
             current_out.enlarge_area(child)
-            if current_out.area() > 50000: # km^2
+            if current_out.area() > 500: # km^2
                 current_out.write_and_close(reason)
                 #print('starting new chunk')
                 current_out_dict[reason] = CurrentOutput(root, reason)

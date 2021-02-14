@@ -24,7 +24,7 @@ with open(fileName) as f:
                 sys.exit(1)
             normalized = parser.normalizedExpression()
             if normalized != new:
-                print('ERROR: not normalized: {0}'.format(new))
+                print('ERROR: not normalized: {0} -> {1}'.format(new, normalized))
                 sys.exit(1)
 
             #print('IN: {} {} -> {}'.format(key, old, new))

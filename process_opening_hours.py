@@ -33,8 +33,12 @@ for child in root:
                     new_oh = ''
                 else:
                     new_oh = parser.normalizedExpression()
+                    if 'Sa-Sa' in new_oh or 'Su-Su' in new_oh:
+                        new_oh = ''
                     if new_oh != '':
-                        new_oh = new_oh.replace('PH Su off', 'Su,PH off')
+                        new_oh = new_oh.replace('PH Su ', 'Su,PH ')
+                        new_oh = new_oh.replace('7j/7', 'Mo-Su')
+                        new_oh = new_oh.replace('7/7', 'Mo-Su')
                         parser.setExpression(new_oh)
                         if parser.error() == Error.SyntaxError:
                             print('ERROR: cannot parse my own expression back:\n' + old_opening_hours + '\n' + new_oh)

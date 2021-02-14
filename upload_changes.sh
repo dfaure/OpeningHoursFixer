@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # data/done.txt => data/done.osm
-./create_changes.py
+./create_changes.py || exit 1
 
 # data/done.osm => changes/*
 ./filter_changes.py

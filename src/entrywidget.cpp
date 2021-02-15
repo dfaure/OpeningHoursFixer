@@ -26,9 +26,11 @@ EntryWidget::EntryWidget(EditData &editData, int idx, QWidget *parent)
     lay->setContentsMargins(0, 0, 0, 0);
     lay->setSpacing(1);
     auto *keyLabel = new QLabel(entry.key, this);
+    keyLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
     lay->addWidget(keyLabel);
     auto *oldLabel = new QLabel(entry.oldHours, this);
     oldLabel->setMaximumWidth(screen()->availableSize().width() - 200);
+    oldLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
     lay->addWidget(oldLabel);
     QHBoxLayout *hLayout = new QHBoxLayout;
     m_newHours = new QLineEdit(entry.newHours, this);

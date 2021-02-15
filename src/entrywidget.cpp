@@ -70,7 +70,8 @@ void EntryWidget::revalidate()
     const QString curText = m_newHours->text();
     OpeningHours parser(curText.toUtf8());
     QColor col = Qt::black;
-    if (parser.error() == OpeningHours::SyntaxError) {
+    if (parser.error() == OpeningHours::SyntaxError
+            || parser.error() == OpeningHours::IncompatibleMode) {
         m_errorLabel->setText(QStringLiteral("SYNTAX ERROR"));
         col = m_editData.isUnfixable(m_index) ? Qt::gray : Qt::red;
     } else {
@@ -92,7 +93,8 @@ void EntryWidget::normalize()
 {
     const QString curText = m_newHours->text();
     OpeningHours parser(curText.toUtf8());
-    if (parser.error() != OpeningHours::SyntaxError) {
+    if (parser.error() != OpeningHours::SyntaxError &&
+            parser.error() != OpeningHours::IncompatibleMode) {
         const QString normalized = QString::fromUtf8(parser.normalizedExpression());
         if (curText != normalized) {
             m_newHours->setText(normalized);

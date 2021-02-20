@@ -6,18 +6,26 @@
 #include "entrywidget.h"
 
 #include <QCloseEvent>
+#include <QDebug>
 #include <QPushButton>
 #include <QScreen>
+#include <QTimer>
 #include <QVBoxLayout>
 
-MainWidget::MainWidget(EditData &editData, QWidget *parent)
+MainWidget::MainWidget(EditData &editData, const QString &fileName, QWidget *parent)
     : QScrollArea(parent), m_editData(editData)
 {
+    setWindowTitle(fileName);
     setWidget(new QWidget);
     setWidgetResizable(true);
     createUi();
 
     setGeometry(screen()->availableGeometry().adjusted(50, 50, -50, -50));
+
+    QTimer *timer = new QTimer(this);
+    timer->setInterval(10000);
+    connect(timer, &QTimer::timeout, this, [this]() { save(); });
+    timer->start();
 }
 
 void MainWidget::closeEvent(QCloseEvent *ev)
@@ -43,7 +51,7 @@ void MainWidget::createUi()
             this, [this]() { m_editData.setDone(); });
 }
 
-void MainWidget::save()
+void MainWidget::save() const
 {
     for (EntryWidget *w : m_widgets) {
         w->save();

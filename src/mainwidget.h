@@ -11,14 +11,14 @@ class MainWidget : public QScrollArea
 {
     Q_OBJECT
 public:
-    explicit MainWidget(EditData &editData, QWidget *parent = nullptr);
+    explicit MainWidget(EditData &editData, const QString &fileName, QWidget *parent = nullptr);
 
 protected:
     void closeEvent(QCloseEvent *ev) override;
 
 private:
     void createUi();
-    void save();
+    void save() const;
 
     std::vector<EntryWidget *> m_widgets;
     EditData &m_editData;

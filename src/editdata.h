@@ -9,7 +9,7 @@ public:
     EditData();
 
     bool load(const QString &fileName);
-    bool save();
+    bool save() const;
 
     void setDone();
 

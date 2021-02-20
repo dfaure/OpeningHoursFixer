@@ -15,10 +15,11 @@ int main(int argc, char** argv)
         qInfo("Expected a filename as argument, the txt file to edit");
         return 1;
     }
-    if (!data.load(args.at(1))) {
+    const QString fileName = args.at(1);
+    if (!data.load(fileName)) {
         return 2;
     }
-    MainWidget w(data);
+    MainWidget w(data, fileName);
     w.show();
     return app.exec();
 }

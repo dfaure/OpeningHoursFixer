@@ -25,8 +25,9 @@ EntryWidget::EntryWidget(EditData &editData, int idx, QWidget *parent)
     auto *lay = new QVBoxLayout(this);
     lay->setContentsMargins(0, 0, 0, 0);
     lay->setSpacing(1);
-    auto *keyLabel = new QLabel(entry.key, this);
-    keyLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
+    auto *keyLabel = new QLabel(QStringLiteral("<a href=\"https://www.openstreetmap.org/%1\">%1</a>").arg(entry.key), this);
+    keyLabel->setTextInteractionFlags(Qt::TextSelectableByMouse|Qt::LinksAccessibleByMouse);
+    keyLabel->setOpenExternalLinks(true);
     lay->addWidget(keyLabel);
     auto *oldLabel = new QLabel(entry.oldHours, this);
     oldLabel->setMaximumWidth(screen()->availableSize().width() - 200);

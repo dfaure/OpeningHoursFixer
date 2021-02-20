@@ -25,7 +25,7 @@ bool EditData::load(const QString &fileName)
     return true;
 }
 
-bool EditData::save()
+bool EditData::save() const
 {
     if (m_allDone) {
         save(doneFileName());

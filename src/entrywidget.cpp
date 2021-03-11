@@ -9,6 +9,7 @@
 #include <QDebug>
 #include <QLabel>
 #include <QLineEdit>
+#include <QMenu>
 #include <QPushButton>
 #include <QScreen>
 #include <QVBoxLayout>
@@ -32,6 +33,7 @@ EntryWidget::EntryWidget(EditData &editData, int idx, QWidget *parent)
     auto *oldLabel = new QLabel(entry.oldHours, this);
     oldLabel->setMaximumWidth(screen()->availableSize().width() - 200);
     oldLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
+    oldLabel->setIndent(5); // try to align with the text in the QLineEdit. Could use QStyle...
     lay->addWidget(oldLabel);
     QHBoxLayout *hLayout = new QHBoxLayout;
     m_newHours = new QLineEdit(entry.newHours, this);
@@ -55,11 +57,41 @@ EntryWidget::EntryWidget(EditData &editData, int idx, QWidget *parent)
             this, &EntryWidget::revalidate);
     connect(m_newHours, &QLineEdit::returnPressed,
             this, &EntryWidget::normalize);
+
+    m_newHours->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(m_newHours, &QLineEdit::customContextMenuRequested,
+            this, &EntryWidget::showContextMenu);
 }
 
 void EntryWidget::save()
 {
     m_editData.set(m_index, m_newHours->text());
+}
+
+void EntryWidget::removeDots()
+{
+    QString text = m_newHours->text();
+    text.remove(QLatin1Char('.'));
+    m_newHours->setText(text);
+}
+
+void EntryWidget::showContextMenu(const QPoint &pos)
+{
+    QMenu menu(this);
+    menu.addAction(QStringLiteral("Remove '.'"), this, &EntryWidget::removeDots);
+    menu.addAction(QStringLiteral("'+' -> ','"), this, [this]() {
+        QString text = m_newHours->text();
+        m_newHours->setText(text.replace(QLatin1Char('+'), QLatin1Char(',')));
+    });
+    menu.addAction(QStringLiteral("', ' -> '; '"), this, [this]() {
+        QString text = m_newHours->text();
+        m_newHours->setText(text.replace(QLatin1String(", "), QLatin1String("; ")));
+    });
+    menu.addAction(QStringLiteral("';' -> ','"), this, [this]() {
+        QString text = m_newHours->text();
+        m_newHours->setText(text.replace(QLatin1Char(';'), QLatin1Char(',')));
+    });
+    menu.exec(m_newHours->mapToGlobal(pos));
 }
 
 void EntryWidget::setUnfixable(bool unfixable)

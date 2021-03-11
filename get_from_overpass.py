@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 # https://github.com/mvexel/overpass-api-python-wrapper
 import overpass
+# https://docs.python.org/fr/3/library/json.html
+import json
 import re
+import glob
 
 api = overpass.API(timeout=3000)
 
@@ -11,22 +14,22 @@ nodes = []
 ways = []
 relations = []
 
-with open('data/list.txt') as f:
-    for line in f.readlines():
-        match = re.match(regexp, line)
-        if match is None:
-            print('bad syntax: ' + line)
-        else:
-            type = match.group(1)
-            id = match.group(2)
-            if type == 'node':
-                nodes.append(id)
-            elif type == 'way':
-                ways.append(id)
-            elif type == 'relation':
-                relations.append(id)
-            else:
-                print('unsupported type ' + type)
+jsonfilenames = glob.glob('data/*.json', recursive=False)
+for filename in jsonfilenames:
+    jsonfile = open(filename)
+    jsondata = json.load(jsonfile)
+    print("{0}: {1} issues".format(filename, len(jsondata['issues'])))
+    for jsonissue in jsondata['issues']:
+        json_osm_id = jsonissue['osm_ids']
+        if 'nodes' in json_osm_id:
+            for id in json_osm_id['nodes']:
+                nodes.append(str(id))
+        if 'ways' in json_osm_id:
+            for id in json_osm_id['ways']:
+                ways.append(str(id))
+        if 'relations' in json_osm_id:
+            for id in json_osm_id['relations']:
+                relations.append(str(id))
 
 # https://wiki.openstreetmap.org/wiki/Overpass_API/Overpass_QL#By_element_id
 useArea = False

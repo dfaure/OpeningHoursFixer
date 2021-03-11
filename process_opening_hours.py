@@ -9,8 +9,8 @@ xmlfile = open("data/osm.xml", "r")
 response = xmlfile.read()
 
 blacklist = {}
-if os.path.exists('blacklist'):
-    with open('blacklist') as f:
+if os.path.exists('data/blacklist'):
+    with open('data/blacklist') as f:
         for line in f.readlines():
             key = line.rstrip('\n')
             if key != '':

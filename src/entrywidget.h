@@ -18,6 +18,8 @@ public:
     void save();
 
 private:
+    void removeDots();
+    void showContextMenu(const QPoint &pos);
     void setUnfixable(bool unfixable);
     void revalidate();
     void normalize();

@@ -2,6 +2,7 @@
 #define EDITDATA_H
 
 #include <QString>
+#include <QVector>
 
 class EditData
 {
@@ -27,9 +28,12 @@ public:
     bool isUnfixable(int index) const { return m_entries[index].unfixable; }
 
 private:
+    void loadBlacklist(const QString &dir);
+    void saveBlacklist(const QString &dir) const;
     bool save(const QString &fileName) const;
     QString doneFileName() const;
 
+    QVector<QString> m_blacklist;
     std::vector<Entry> m_entries;
     QString m_fileName;
     bool m_allDone = false;

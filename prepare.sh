@@ -3,8 +3,8 @@
 rm -f data/list.txt data/*.json
 
 for val in france italy germany; do
-  # the max limit is 500, says https://wiki.openstreetmap.org/wiki/Osmose/api/0.3
-  wget "https://osmose.openstreetmap.fr/api/0.3/issues?item=3093&item=3250&class=32501&country=${val}*&full=true&limit=500" -O data/$val.json
+  # the max limit is 500, says https://wiki.openstreetmap.org/wiki/Osmose/api/0.3 -- but more works
+  wget "https://osmose.openstreetmap.fr/api/0.3/issues?item=3093&item=3250&class=32501&country=${val}*&full=true&limit=5000" -O data/$val.json
 done
 
 # data/ errors.json => data/osm.xml

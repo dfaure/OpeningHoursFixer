@@ -15,11 +15,12 @@ with open(fileName) as f:
             break
         old = f.readline()[6:].rstrip('\n')
         new = f.readline()[6:].rstrip('\n')
-        if old != new and new != '':
+        if old != new:
             hours[key] = [old, new]
             parser = OpeningHours()
             parser.setExpression(new)
-            if parser.error() == Error.SyntaxError or parser.error() == Error.IncompatibleMode or parser.error() == Error.Null:
+            # Null is OK here, e.g. to fix "" to empty
+            if parser.error() == Error.SyntaxError or parser.error() == Error.IncompatibleMode:
                 print('ERROR: invalid replacement value: {0}'.format(new))
                 sys.exit(1)
             normalized = parser.normalizedExpression()

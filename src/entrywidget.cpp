@@ -87,9 +87,25 @@ void EntryWidget::showContextMenu(const QPoint &pos)
         QString text = m_newHours->text();
         m_newHours->setText(text.replace(QLatin1String(", "), QLatin1String("; ")));
     });
+    menu.addAction(QStringLiteral("',' -> ':'"), this, [this]() {
+        QString text = m_newHours->text();
+        m_newHours->setText(text.replace(QLatin1Char(','), QLatin1Char(':')));
+    });
     menu.addAction(QStringLiteral("';' -> ','"), this, [this]() {
         QString text = m_newHours->text();
         m_newHours->setText(text.replace(QLatin1Char(';'), QLatin1Char(',')));
+    });
+    menu.addAction(QStringLiteral("'.' -> ':'"), this, [this]() {
+        QString text = m_newHours->text();
+        m_newHours->setText(text.replace(QLatin1Char('.'), QLatin1Char(':')));
+    });
+    menu.addAction(QStringLiteral("'-' -> ';'"), this, [this]() {
+        QString text = m_newHours->text();
+        m_newHours->setText(text.replace(QLatin1Char('-'), QLatin1Char(';')));
+    });
+    menu.addAction(QStringLiteral("'/' -> ','"), this, [this]() {
+        QString text = m_newHours->text();
+        m_newHours->setText(text.replace(QLatin1Char('/'), QLatin1Char(',')));
     });
     menu.exec(m_newHours->mapToGlobal(pos));
 }
@@ -110,13 +126,16 @@ void EntryWidget::revalidate()
         m_errorLabel->setText(QStringLiteral("SYNTAX ERROR"));
         col = m_editData.isUnfixable(m_index) ? Qt::gray : Qt::red;
     } else {
-        const QString normalized = QString::fromUtf8(parser.normalizedExpression());
+        const QString normalized = QString::fromUtf8(parser.simplifiedExpression());
         if (curText != normalized) {
             m_errorLabel->setText(QStringLiteral("Press Enter to normalize"));
             col = Qt::yellow;
         } else {
             m_errorLabel->setText(QStringLiteral("OK"));
-            col = Qt::green;
+            if (curText.contains(QLatin1String("+,")) || curText.contains(QLatin1String("+;")))
+                col = QColor(180, 100, 20); // orange
+            else
+                col = Qt::green;
         }
     }
     QPalette pal = m_newHours->palette();
@@ -130,7 +149,7 @@ void EntryWidget::normalize()
     OpeningHours parser(curText.toUtf8());
     if (parser.error() != OpeningHours::SyntaxError &&
             parser.error() != OpeningHours::IncompatibleMode) {
-        const QString normalized = QString::fromUtf8(parser.normalizedExpression());
+        const QString normalized = QString::fromUtf8(parser.simplifiedExpression());
         if (curText != normalized) {
             m_newHours->setText(normalized);
         }

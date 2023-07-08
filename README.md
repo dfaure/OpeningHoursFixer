@@ -8,3 +8,6 @@ and then lets the user manually review the changes, and fix by hand what the par
 The idea is that it's faster to edit a text file (with a diff-like layout), than to click-click-click
 in Osmose, waiting for the server to reply at every step.
 
+Usage:
+./prepare.sh
+then read the instructions it outputs

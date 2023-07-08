@@ -16,4 +16,4 @@ rm -f data/editme* data/err-editme*
 # data/osm.xml => data/editme-*.txt
 ./process_opening_hours.py
 
-echo 'Now edit one of the data/editme-*.txt files, save it as data/done.txt, then run upload_changes.sh, repeat'
+echo 'Now edit one of the data/editme-*.txt files using build/bin/KOpeningHoursFixer, the bottom button will save it as data/done.txt, then run upload_changes.sh, repeat'

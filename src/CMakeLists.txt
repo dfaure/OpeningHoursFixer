@@ -9,6 +9,6 @@ add_executable(KOpeningHoursFixer
 )
 
 target_link_libraries(KOpeningHoursFixer
-    Qt5::Widgets
+    Qt::Widgets
     KOpeningHours
 )
